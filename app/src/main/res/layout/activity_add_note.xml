@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:gravity="end"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
