@@ -2,10 +2,14 @@ package com.example.notepadapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper{
     public DbHelper(@Nullable Context context) {
@@ -39,5 +43,32 @@ public class DbHelper extends SQLiteOpenHelper{
         db.close();
 
         return id;
+    }
+
+    public List<Note> getAllData(){
+        List<Note> arrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM "+DB.TABLE_NAME;
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Note note = new Note(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(DB.N_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DB.N_TITLE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DB.N_CONTENT)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DB.N_ADDED_TIME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(DB.N_UPDATED_TIME))
+
+                );
+                arrayList.add(note);
+            }while (cursor.moveToNext());
+        }
+
+        db.close();
+
+        return arrayList;
     }
 }
