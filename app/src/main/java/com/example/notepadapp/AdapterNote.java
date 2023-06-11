@@ -9,12 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteViewHolder>{
 
     private Context context;
     private List<Note> noteList;
+
+    private static final int MAX_CONTENT_LENGTH = 40;
 
     public AdapterNote(Context context, List<Note> noteList) {
         this.context = context;
@@ -38,6 +44,33 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteViewHolder
         String title = note.getTitle();
         String content = note.getContent();
         String addedTime = note.getAddedTime();
+        String currentTime = ""+System.currentTimeMillis();
+        long ctimestampLong = Long.parseLong(currentTime);
+
+        long timestampLong = Long.parseLong(addedTime);
+
+        if (title.isEmpty()){
+            title = "Untitled";
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Instant instant = Instant.ofEpochMilli(timestampLong);
+            LocalDate date = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            addedTime = date.format(formatter);
+        }
+
+        if (content.length() > MAX_CONTENT_LENGTH){
+            content = content.substring(0,MAX_CONTENT_LENGTH);
+            content += "...";
+
+        }
+
+
+
+
 
         holder.title.setText(title);
         holder.content.setText(content);

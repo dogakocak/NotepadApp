@@ -1,9 +1,6 @@
 package com.example.notepadapp;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,14 +37,12 @@ public class AddNoteActivity extends AppCompatActivity {
             return;
         }
 
-        Log.d(TAG, "saveButton: "+titleStr);
-        Log.d(TAG, "saveButton: "+contentStr);
-
         Note note = new Note(titleStr,contentStr,timeStamp,timeStamp);
 
         long id = dbHelper.insertNote(note);
 
-        Toast.makeText(this, "Data is added: "+id, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
 
 
     }

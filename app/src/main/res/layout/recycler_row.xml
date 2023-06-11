@@ -30,7 +30,7 @@
             android:id="@+id/addedTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="55dp"
+            android:layout_marginStart="53dp"
             android:layout_marginBottom="15dp"
             android:contentDescription="max 22 words"
             android:text="Date"
