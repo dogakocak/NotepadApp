@@ -2,17 +2,13 @@ package com.example.notepadapp;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddNoteActivity extends AppCompatActivity {
 
@@ -21,7 +17,9 @@ public class AddNoteActivity extends AppCompatActivity {
 
     String titleStr;
     String contentStr;
-    private boolean isFirstLine = true;
+    String timeStamp = "" + System.currentTimeMillis();
+
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +27,7 @@ public class AddNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
         titleEt = findViewById(R.id.noteTitleInput);
         contentEt = findViewById(R.id.noteContentInput);
+        dbHelper = new DbHelper(this);
     }
 
 
@@ -36,8 +35,19 @@ public class AddNoteActivity extends AppCompatActivity {
         titleStr = titleEt.getText().toString();
         contentStr = contentEt.getText().toString();
 
+        if (titleStr.isEmpty() && contentStr.isEmpty()){
+            super.onBackPressed();
+            return;
+        }
+
         Log.d(TAG, "saveButton: "+titleStr);
         Log.d(TAG, "saveButton: "+contentStr);
+
+        Note note = new Note(titleStr,contentStr,timeStamp,timeStamp);
+
+        long id = dbHelper.insertNote(note);
+
+        Toast.makeText(this, "Data is added: "+id, Toast.LENGTH_SHORT).show();
 
 
     }
