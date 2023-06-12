@@ -61,6 +61,12 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteViewHolder
             addedTime = date.format(formatter);
         }
 
+        if (title.length() > MAX_CONTENT_LENGTH){
+            title = title.substring(0,MAX_CONTENT_LENGTH);
+            title += "...";
+
+        }
+
         if (content.length() > MAX_CONTENT_LENGTH){
             content = content.substring(0,MAX_CONTENT_LENGTH);
             content += "...";
