@@ -10,6 +10,7 @@ public class Note {
 
     private String updatedTime;
 
+
     public Note(String title, String content, String addedTime, String updatedTime) {
         this.title = title;
         this.content = content;

@@ -45,6 +45,25 @@ public class DbHelper extends SQLiteOpenHelper{
         return id;
     }
 
+    public int updateNote(Note note) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DB.N_TITLE, note.getTitle());
+        contentValues.put(DB.N_CONTENT, note.getContent());
+        contentValues.put(DB.N_ADDED_TIME, "" + note.getAddedTime());
+        contentValues.put(DB.N_UPDATED_TIME, "" + note.getUpdatedTime());
+
+        String whereClause = DB.N_ID + " = ?";
+        String[] whereArgs = {String.valueOf(note.getId())};
+
+        int rowsAffected = db.update(DB.TABLE_NAME, contentValues, whereClause, whereArgs);
+
+        db.close();
+
+        return rowsAffected;
+    }
+
     public List<Note> getAllData(){
         List<Note> arrayList = new ArrayList<>();
 

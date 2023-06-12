@@ -1,6 +1,7 @@
 package com.example.notepadapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +41,10 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteViewHolder
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         Note note = noteList.get(position);
 
-        int id = note.getId();
+        String id = String.valueOf(note.getId());
         String title = note.getTitle();
         String content = note.getContent();
         String addedTime = note.getAddedTime();
-        String currentTime = ""+System.currentTimeMillis();
-        long ctimestampLong = Long.parseLong(currentTime);
 
         long timestampLong = Long.parseLong(addedTime);
 
@@ -68,13 +67,18 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteViewHolder
 
         }
 
-
-
-
-
         holder.title.setText(title);
         holder.content.setText(content);
         holder.addedTime.setText(addedTime);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddNoteActivity.class);
+                intent.putExtra("noteId",id);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
