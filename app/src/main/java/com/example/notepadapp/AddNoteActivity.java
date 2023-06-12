@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ public class AddNoteActivity extends AppCompatActivity {
     String contentStr;
     String timeStamp = "" + System.currentTimeMillis();
 
+    TextView deleteText;
+
     private DbHelper dbHelper;
 
     private String noteId;
@@ -32,12 +35,14 @@ public class AddNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
         titleEt = findViewById(R.id.noteTitleInput);
         contentEt = findViewById(R.id.noteContentInput);
+        deleteText = findViewById(R.id.deleteButton);
         dbHelper = new DbHelper(this);
 
         Intent intent = getIntent();
         noteId = intent.getStringExtra("noteId");
 
         if (noteId != null){
+            deleteText.setVisibility(View.VISIBLE);
             loadData(noteId);
         }
     }
@@ -94,6 +99,10 @@ public class AddNoteActivity extends AppCompatActivity {
         }
 
         super.onBackPressed();
+
+    }
+
+    public void deleteButton(View view){
 
     }
 }

@@ -14,5 +14,8 @@
     <color name="colorWhiteTone">#FFF4E5</color>
     <color name="colorSecondaryVariant">#FFC26F</color>
 
+    <color name ="redPrimary">#F18484</color>
+    <color name ="redPrimaryVariant">#D60000</color>
+
 
 </resources>
