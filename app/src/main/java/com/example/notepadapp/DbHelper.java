@@ -39,7 +39,6 @@ public class DbHelper extends SQLiteOpenHelper{
 
         long id = db.insert(DB.TABLE_NAME,null,contentValues);
 
-
         db.close();
 
         return id;
@@ -62,6 +61,21 @@ public class DbHelper extends SQLiteOpenHelper{
         db.close();
 
         return rowsAffected;
+    }
+
+    public int deleteNote(String noteId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        String whereClause = DB.N_ID + " = ?";
+        String[] whereArgs = {String.valueOf(noteId)};
+
+        int rowsAffected = db.delete(DB.TABLE_NAME, whereClause, whereArgs);
+
+        db.close();
+
+        return rowsAffected;
+
     }
 
     public List<Note> getAllData(){

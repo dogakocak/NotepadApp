@@ -2,6 +2,7 @@ package com.example.notepadapp;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -27,6 +29,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private DbHelper dbHelper;
 
     private String noteId;
+
 
 
     @Override
@@ -90,8 +93,8 @@ public class AddNoteActivity extends AppCompatActivity {
 
         if(noteId != null){
             note.setId(Integer.parseInt(noteId));
-            int id = dbHelper.updateNote(note);
-            Toast.makeText(this, "Note is updated ", Toast.LENGTH_SHORT).show();
+            int rowsAffected = dbHelper.updateNote(note);
+            Toast.makeText(this, "Note is updated", Toast.LENGTH_SHORT).show();
 
         }else{
             long id = dbHelper.insertNote(note);
@@ -103,6 +106,18 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     public void deleteButton(View view){
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete");
+        builder.setMessage("Note will be deleted, are you sure?");
+        builder.setNegativeButton("No",null);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int rowsAffected = dbHelper.deleteNote(noteId);
+                Toast.makeText(AddNoteActivity.this, "Note is deleted", Toast.LENGTH_SHORT).show();
+                AddNoteActivity.super.onBackPressed();
+            }
+        });
+        builder.show();
     }
 }
